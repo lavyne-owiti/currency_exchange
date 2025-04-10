@@ -14,9 +14,11 @@ class _TransactionWidgetState extends State<TransactionWidget> {
       body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView.separated(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
             separatorBuilder: (_, __) => const SizedBox(height: 10),
             padding: const EdgeInsets.all(4.0),
-            itemCount: 14,
+            itemCount: 10,
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 shape: RoundedRectangleBorder(
@@ -26,26 +28,33 @@ class _TransactionWidgetState extends State<TransactionWidget> {
                     width: 2.0,
                   ),
                 ),
-                child: ListTile(
-                  leading: const Icon(Icons.account_balance_wallet),
-                  title: const Text('Wallet'),
-                  subtitle: const Text('USD'),
-                  trailing: RichText(
-                      text: TextSpan(
-                          text: '0.2%\n',
-                          style: TextStyle(color: Colors.black),
-                          children: [
-                        TextSpan(
-                          text: '1000.00',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ])),
-                  onTap: () {
-                    // Handle wallet tap
-                  },
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Wallet'),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('USD'),
+                          SizedBox(width: 25),
+                          Text('1000.00')
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Rate'),
+                          SizedBox(width: 25),
+                          Text('0.2%'),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

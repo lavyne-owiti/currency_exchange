@@ -1,6 +1,6 @@
-import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/currency_swap_screen.dart';
+import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/swap_screen.dart';
 import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/home_screen.dart';
-import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/transafer_screen.dart';
+import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/transaction_screen.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -13,9 +13,9 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
 
-  void _onItemTapped() {
+  void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = (_selectedIndex + 1) % _screens.length;
+      _selectedIndex = index;
     });
   }
 
@@ -96,7 +96,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.cyan[800],
-        onTap: (index) => _onItemTapped(),
+        onTap: (index) => _onItemTapped(index),
       ),
     );
   }

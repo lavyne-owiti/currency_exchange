@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:currency_exchange_app/feature/currency_trade/data/remote_datasource.dart';
+import 'package:currency_exchange_app/feature/currency_trade/presentation/widgets/currency_widget.dart';
 import 'package:currency_exchange_app/feature/currency_trade/presentation/widgets/transactions_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +13,39 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<String> currencies = [];
+  CurrencyService currencyService = CurrencyService();
+
+  Future<void> _fetchCurrencies() async {
+    try {
+      List<String> result = await currencyService.fetchCurrencies();
+      setState(() {
+        currencies = result;
+      });
+    } catch (error) {
+      print('Error fetching currencies: $error');
+    }
+  }
+
+  @override
+  void initState() {
+    _fetchCurrencies();
+    print('this currencies $currencies');
+    //  currencyService.fetchCurrencies.then((value) {
+    //     setState(() {
+    //       currencies = value;
+    //     });
+    //   });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10),
         child: Column(
+          // mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20),
@@ -22,10 +53,17 @@ class _HomeScreenState extends State<HomeScreen> {
               'My Wallet',
               style: TextStyle(fontSize: 20),
             ),
+            GestureDetector(
+              onTap: () {
+                _fetchCurrencies();
+                log('this currencies $currencies');
+              },
+              child: Icon(Icons.abc),
+            ),
             SizedBox(height: 20),
             Center(
               child: Container(
-                padding: EdgeInsets.all(50),
+                padding: EdgeInsets.all(30),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(10),
@@ -51,41 +89,50 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 20),
             Text(
-              'Qquick Actions',
+              'Quick Actions',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('send'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('Recieve'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('Swap'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle button press
-                  },
-                  child: Text('Buy'),
-                ),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button press
+                    },
+                    child: Text('send'),
+                  ),
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button press
+                    },
+                    child: Text('Recieve'),
+                  ),
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button press
+                    },
+                    child: Text('Swap'),
+                  ),
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button press
+                    },
+                    child: Text('Buy'),
+                  ),
+                ],
+              ),
             ),
+            SizedBox(height: 20),
             Text('Transactions', style: TextStyle(fontSize: 20)),
-            Expanded(child: TransactionWidget())
+            // Expanded(child: TransactionWidget()),
+            Text('Currencies', style: TextStyle(fontSize: 20)),
+            Expanded(child: CurrencyWidget()),
           ],
         ),
       ),
