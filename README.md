@@ -24,6 +24,15 @@ A modern mobile application that allows users to convert currencies in real time
 - **Riverpod / Provider** – State management
 - **Exchange Rate API** – External data source
 
+
+## 📬 Contact
+
+Let's connect! I'm open to feedback, ideas, or collaboration:
+
+- 📧 Email: [lavyneproject@gmail.com]
+- 💼 GitHub: [github.com/lavyne-owiti]
+
+
 ## 📦 Installation
 
 1. Clone the repo
@@ -31,3 +40,5 @@ A modern mobile application that allows users to convert currencies in real time
 ```bash
 git clone https://github.com/yourusername/currency_exchange_app.git
 cd currency_exchange_app
+
+
