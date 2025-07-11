@@ -1,16 +1,33 @@
-# currency_exchange_app
+# 💱 Currency Exchange App
 
-A new Flutter project.
+A modern mobile application that allows users to convert currencies in real time using up-to-date exchange rates.
 
-## Getting Started
+## ✨ Features
 
-This project is a starting point for a Flutter application.
+- 🔄 Real-time currency conversion
+- 🌍 Supports multiple currencies (USD, EUR, KES, NGN, etc.)
+- 📲 Simple and user-friendly Flutter UI
+- 🌐 Fetches data from a reliable currency exchange API (e.g., ExchangeRate-API, Fixer.io)
+- 📊 History of previous conversions (optional)
+- 🔒 Secure and efficient network calls using `Dio`
 
-A few resources to get you started if this is your first Flutter project:
+## 🚀 Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+## 🛠️ Built With
+
+- **Flutter** – Cross-platform UI toolkit
+- **Dart** – Programming language
+- **Dio** – Networking
+- **Riverpod / Provider** – State management
+- **Exchange Rate API** – External data source
+
+## 📦 Installation
+
+1. Clone the repo
+
+```bash
+git clone https://github.com/yourusername/currency_exchange_app.git
+cd currency_exchange_app
