@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:currency_exchange_app/feature/currency_trade/data/remote_datasource.dart';
 import 'package:currency_exchange_app/feature/currency_trade/presentation/widgets/currency_widget.dart';
+import 'package:currency_exchange_app/feature/currency_trade/presentation/widgets/rate_chart.dart';
+import 'package:currency_exchange_app/feature/currency_trade/presentation/widgets/transaction_card.dart';
 import 'package:currency_exchange_app/feature/currency_trade/presentation/widgets/transactions_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -130,9 +132,29 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 20),
             Text('Transactions', style: TextStyle(fontSize: 20)),
-            // Expanded(child: TransactionWidget()),
+            Expanded(
+                child: TransactionCard(
+              fromCurrency: 'USD',
+              toCurrency: 'KES',
+              inputAmount: 100,
+              convertedAmount: 12000,
+              exchangeRate: 120.0,
+              changePercentage: 2.5,
+            )),
+
             Text('Currencies', style: TextStyle(fontSize: 20)),
-            Expanded(child: CurrencyWidget()),
+            // Expanded(child: CurrencyWidget()),
+            // Expanded(
+            //     child: RateChart(
+            //   rates: {
+            //     '2023-01-01': 120.0,
+            //     '2023-01-02': 121.5,
+            //     '2023-01-03': 119.0,
+            //     '2023-01-04': 122.0,
+            //     '2023-01-05': 123.5,
+            //   },
+            // )),
+            SizedBox(height: 20),
           ],
         ),
       ),
