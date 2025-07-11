@@ -55,10 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             GestureDetector(
               onTap: () {
-                _fetchCurrencies();
-                log('this currencies $currencies');
+                // _fetchCurrencies();
+                // log('this currencies $currencies');
               },
-              child: Icon(Icons.abc),
+              child: Icon(Icons.abc, size: 30, color: Colors.black54),
             ),
             SizedBox(height: 20),
             Center(
