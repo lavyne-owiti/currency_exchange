@@ -4,18 +4,18 @@ import 'package:dio/dio.dart';
 
 class CurrencyService {
   final Dio dio = Dio();
-   String _baseUrl = 'https://api.exchangerate.host';
-   String _accessKey = '96bb8f45e9f348614ea12698dd91d1ac';
+   final String _baseUrl = 'https://api.exchangerate.host';
+   final String _accessKey = '96bb8f45e9f348614ea12698dd91d1ac';
 
 
   Future<List<String>> fetchCurrencies() async {
-    final response = await dio.get('https://api.exchangerate.host/live',
-        queryParameters: {"access_key": "96bb8f45e9f348614ea12698dd91d1ac"});
+    final response = await dio.get('$_baseUrl/live',
+        queryParameters: {"access_key": _accessKey});
     if (response.statusCode == 200) {
       final data = response.data;
       log('this is the data $data');
-      final rates = data['rates'] as Map<String, dynamic>;
-      return rates.keys.toList(); // or map to include name/description if needed
+      final rates = data['quotes'] as Map<String, dynamic>;
+      return rates.keys.toList(); 
     } else {
       throw Exception('Failed to load currencies');
     }
@@ -53,6 +53,7 @@ class CurrencyService {
       throw Exception('Failed to fetch live rates');
     }
   }
+
 Future<double> convertCurrency({
     required String from,
     required String to,
@@ -86,6 +87,65 @@ Future<double> convertCurrency({
       return response.data['rates'] as Map<String, dynamic>;
     } else {
       throw Exception('Failed to fetch historical rates');
+    }
+  }
+
+  Future<double> getExchangeRate(String from, String to) async {
+    final response = await dio.get(
+      'https://api.exchangerate.host/convert',
+      queryParameters: {
+        'access_key': _accessKey,
+        'from': from,
+        'to': to,
+        'amount': 1,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return (response.data['result'] as num).toDouble();
+    } else {
+      throw Exception('Failed to get rate');
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchChangeData(String from, String to) async {
+    final response = await dio.get(
+      'https://api.exchangerate.host/change',
+      queryParameters: {
+        'access_key': _accessKey,
+        'start_date': '2024-01-01',
+        'end_date': '2024-07-01',
+        'base': from,
+        'symbols': to,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return response.data['change'][to]; 
+    } else {
+      throw Exception('Failed to fetch change data');
+    }
+  }
+
+  Future<double> convertAmount({
+    required String from,
+    required String to,
+    required double amount,
+  }) async {
+    final response = await dio.get(
+      'https://api.exchangerate.host/convert',
+      queryParameters: {
+        'access_key': _accessKey,
+        'from': from,
+        'to': to,
+        'amount': amount,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return (response.data['result'] as num).toDouble();
+    } else {
+      throw Exception('Conversion failed');
     }
   }
 
