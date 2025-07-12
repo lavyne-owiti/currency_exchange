@@ -66,6 +66,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 controller: phoneController,
                 decoration: const InputDecoration(labelText: 'Phone Number'),
                 keyboardType: TextInputType.phone,
+                
                 validator: (val) => val != null && val.length >= 10
                     ? null
                     : 'Enter a valid phone number',
