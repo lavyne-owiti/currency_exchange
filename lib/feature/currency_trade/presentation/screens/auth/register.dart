@@ -32,10 +32,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         emailController.text.trim(),
         passwordController.text.trim(),
       );
+
+      final user = ref.read(firebaseAuthProvider).currentUser;
+
+      if (user != null) {
+        await auth.saveUserDetails(
+          uid: user.uid,
+          name: nameController.text.trim(),
+          phone: phoneController.text.trim(),
+          email: emailController.text.trim(),
+        );
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Registration Successful")),
       );
-      // You can also save the name and phone to Firestore here
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: $e")),
@@ -66,7 +77,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 controller: phoneController,
                 decoration: const InputDecoration(labelText: 'Phone Number'),
                 keyboardType: TextInputType.phone,
-                
                 validator: (val) => val != null && val.length >= 10
                     ? null
                     : 'Enter a valid phone number',
