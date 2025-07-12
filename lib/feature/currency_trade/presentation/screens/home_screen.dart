@@ -18,20 +18,20 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> currencies = [];
   CurrencyService currencyService = CurrencyService();
 
-  Future<void> _fetchCurrencies() async {
-    try {
-      List<String> result = await currencyService.fetchCurrencies();
-      setState(() {
-        currencies = result;
-      });
-    } catch (error) {
-      print('Error fetching currencies: $error');
-    }
-  }
+  // Future<void> _fetchCurrencies() async {
+  //   try {
+  //     List<String> result = await currencyService.fetchCurrencies();
+  //     setState(() {
+  //       currencies = result;
+  //     });
+  //   } catch (error) {
+  //     print('Error fetching currencies: $error');
+  //   }
+  // }
 
   @override
   void initState() {
-    _fetchCurrencies();
+    // _fetchCurrencies();
     print('this currencies $currencies');
     //  currencyService.fetchCurrencies.then((value) {
     //     setState(() {
@@ -45,7 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(
+          left: 10,
+          right: 10,
+          top: 10,
+        ),
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,28 +69,31 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 10),
             Center(
               child: Container(
-                padding: EdgeInsets.all(30),
+                width: double.infinity,
+                padding: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: RichText(
-                    text: TextSpan(
-                  text: 'KSH',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.black,
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: ' 1000',
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.black,
-                      ),
+                child: Center(
+                  child: RichText(
+                      text: TextSpan(
+                    text: 'KSH',
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.black,
                     ),
-                  ],
-                )),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: ' 1000',
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  )),
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -94,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'Quick Actions',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -133,25 +140,23 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 20),
             Text('Transactions', style: TextStyle(fontSize: 20)),
             Expanded(
-                child:
-            ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return TransactionCard(
-                  fromCurrency: 'USD',
-                  toCurrency: 'KES',
-                  inputAmount: 100,
-                  convertedAmount: 12000,
-                  exchangeRate: 120.0,
-                  changePercentage: 2.5,
-                );
-              },
-            ),),
+              child: ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return TransactionCard(
+                    fromCurrency: 'USD',
+                    toCurrency: 'KES',
+                    inputAmount: 100,
+                    convertedAmount: 12000,
+                    exchangeRate: 120.0,
+                    changePercentage: 2.5,
+                  );
+                },
+              ),
+            ),
 
             Text('Currencies', style: TextStyle(fontSize: 20)),
             Expanded(child: CurrencyWidget()),
-
-            SizedBox(height: 20),
           ],
         ),
       ),

@@ -19,8 +19,8 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
       List<String> result = await currencyService.fetchCurrencies();
       setState(() {
         currencies = result;
+        log('Fetched currencies: $currencies');
       });
-       log('Fetched currencies: $currencies');
     } catch (error) {
       print('Error fetching currencies: $error');
     }
@@ -28,9 +28,8 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
 
   @override
   void initState() {
-    _fetchCurrencies();
-    log('this currencies $currencies');
     super.initState();
+    _fetchCurrencies();
   }
 
   @override
@@ -40,39 +39,48 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
           padding: const EdgeInsets.all(8.0),
           child: ListView.separated(
             shrinkWrap: true,
-            separatorBuilder: (_, __) => const SizedBox(height: 10),
+            separatorBuilder: (_, __) => const SizedBox(height: 2),
             padding: const EdgeInsets.all(4.0),
-            itemCount: 10,
+            itemCount: currencies.length > 10 ? 10 : currencies.length,
             itemBuilder: (BuildContext context, int index) {
+              final currency = currencies[index];
+              final parts = currency.split(':');
+              final currencyCode = parts[0].trim();
+              final rate = parts.length > 1 ? parts[1].trim() : '';
               return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    side: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2.0,
-                    ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2.0,
                   ),
-                  child: ListTile(
-                    title: Text('Currency'),
-                    subtitle: Text('Type'),
-                    trailing: RichText(
-                        text: TextSpan(
-                      text: 'KSH',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' 1000',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        currencyCode,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
                         ),
-                      ],
-                    )),
-                  ));
+                      ),
+                      Text(
+                        rate,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
             },
           )),
     );

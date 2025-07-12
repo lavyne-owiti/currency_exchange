@@ -4,20 +4,27 @@ import 'package:dio/dio.dart';
 
 class CurrencyService {
   final Dio dio = Dio();
-   final String _baseUrl = 'https://api.exchangerate.host';
-   final String _accessKey = '96bb8f45e9f348614ea12698dd91d1ac';
-
+  final String _baseUrl = 'https://api.exchangerate.host';
+  final String _accessKey = '96bb8f45e9f348614ea12698dd91d1ac';
 
   Future<List<String>> fetchCurrencies() async {
-    final response = await dio.get('$_baseUrl/live',
-        queryParameters: {"access_key": _accessKey});
+    final response = await dio
+        .get('$_baseUrl/live', queryParameters: {"access_key": _accessKey});
     if (response.statusCode == 200) {
       final data = response.data;
-      log('this is the data $data');
-      final rates = data['quotes'] as Map<String, dynamic>;
-      return rates.keys.toList(); 
+      final quotes = data['quotes'];
+      if (quotes != null && quotes is Map<String, dynamic>) {
+        return quotes.entries.map((entry) {
+          return '${entry.key}: ${entry.value}';
+        }).toList();
+      } else {
+        throw Exception('Unexpected response format: "quotes" is missing');
+      }
+      // log('this is the data $data');
+      // final rates = data['quotes'] as Map<String, dynamic>;
+      // return rates.keys.toList();
     } else {
-      throw Exception('Failed to load currencies');
+      throw Exception('Failed to load currencies : ${response.statusCode}');
     }
   }
 
@@ -54,7 +61,7 @@ class CurrencyService {
     }
   }
 
-Future<double> convertCurrency({
+  Future<double> convertCurrency({
     required String from,
     required String to,
     required double amount,
@@ -74,6 +81,7 @@ Future<double> convertCurrency({
       throw Exception('Currency conversion failed');
     }
   }
+
   Future<Map<String, dynamic>> fetchHistoricalRates(
       String baseCurrency, String date) async {
     final response = await dio.get(
@@ -121,7 +129,7 @@ Future<double> convertCurrency({
     );
 
     if (response.statusCode == 200) {
-      return response.data['change'][to]; 
+      return response.data['change'][to];
     } else {
       throw Exception('Failed to fetch change data');
     }
@@ -148,5 +156,4 @@ Future<double> convertCurrency({
       throw Exception('Conversion failed');
     }
   }
-
 }
