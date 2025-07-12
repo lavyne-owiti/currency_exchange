@@ -1,10 +1,10 @@
 import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/auth/onboarding_screen.dart';
 import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/dashboard_screen.dart';
 import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/home_screen.dart';
+import 'package:currency_exchange_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'firebase_options.dart';
 
 
 void main() async {
