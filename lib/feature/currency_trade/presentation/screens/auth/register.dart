@@ -68,14 +68,42 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             children: [
               TextFormField(
                 controller: nameController,
-                decoration: const InputDecoration(labelText: 'Full Name'),
+                decoration: InputDecoration(
+                  labelText: 'Full Name',
+                  // labelStyle: const TextStyle(color: Colors.blue),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
                 validator: (val) =>
                     val != null && val.isNotEmpty ? null : 'Enter your name',
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: phoneController,
-                decoration: const InputDecoration(labelText: 'Phone Number'),
+                decoration: InputDecoration(
+                  labelText: 'Phone Number',
+                  // labelStyle: const TextStyle(color: Colors.blue),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
                 keyboardType: TextInputType.phone,
                 validator: (val) => val != null && val.length >= 10
                     ? null
@@ -84,7 +112,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               const SizedBox(height: 12),
               TextFormField(
                 controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  // labelStyle: const TextStyle(color: Colors.blue),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (val) => val != null && val.contains('@')
                     ? null
@@ -93,28 +135,65 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               const SizedBox(height: 12),
               TextFormField(
                 controller: passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 validator: (val) => val != null && val.length >= 6
                     ? null
                     : 'Minimum 6 characters',
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  // labelStyle: const TextStyle(color: Colors.blue),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: confirmPasswordController,
-                decoration:
-                    const InputDecoration(labelText: 'Confirm Password'),
                 obscureText: true,
                 validator: (val) => val == passwordController.text
                     ? null
                     : 'Passwords do not match',
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  // labelStyle: const TextStyle(color: Colors.blue),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
               ),
               const SizedBox(height: 24),
               isLoading
                   ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: _register,
-                      child: const Text("Register"),
+                  : SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        onPressed: _register,
+                        child: const Text("Register"),
+                      ),
                     ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
