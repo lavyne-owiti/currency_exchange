@@ -1,4 +1,5 @@
 import 'package:currency_exchange_app/feature/currency_trade/presentation/providers/auth_controller.dart';
+import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,6 +42,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           name: nameController.text.trim(),
           phone: phoneController.text.trim(),
           email: emailController.text.trim(),
+        );
+      }
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const DashboardScreen()),
         );
       }
 

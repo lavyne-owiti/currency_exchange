@@ -1,3 +1,4 @@
+import 'package:currency_exchange_app/feature/currency_trade/presentation/widgets/rate_chart.dart';
 import 'package:flutter/material.dart';
 
 class TransaferScreen extends StatefulWidget {
@@ -14,7 +15,25 @@ class _TransaferScreenState extends State<TransaferScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 10),
+            Text('The Rate Chart', style: TextStyle(fontSize: 15)),
+            SizedBox(height: 20),
+            //  Expanded(
+            //     child:
+            RateChart(
+              rates: {
+                '2023-01-01': 120.0,
+                '2023-01-02': 121.5,
+                '2023-01-03': 119.0,
+                '2023-01-04': 122.0,
+                '2023-01-05': 123.5,
+              },
+              // )
+            ),
+            SizedBox(height: 20),
+            Text('Enter Amount to Transfer', style: TextStyle(fontSize: 15)),
             SizedBox(height: 10),
             TextField(
               decoration: InputDecoration(

@@ -50,19 +50,19 @@ class _HomeScreenState extends State<HomeScreen> {
           // mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Text(
               'My Wallet',
               style: TextStyle(fontSize: 20),
             ),
-            GestureDetector(
-              onTap: () {
-                // _fetchCurrencies();
-                // log('this currencies $currencies');
-              },
-              child: Icon(Icons.abc, size: 30, color: Colors.black54),
-            ),
-            SizedBox(height: 20),
+            // GestureDetector(
+            //   onTap: () {
+            //     // _fetchCurrencies();
+            //     // log('this currencies $currencies');
+            //   },
+            //   child: Icon(Icons.abc, size: 30, color: Colors.black54),
+            // ),
+            SizedBox(height: 10),
             Center(
               child: Container(
                 padding: EdgeInsets.all(30),
@@ -133,27 +133,24 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 20),
             Text('Transactions', style: TextStyle(fontSize: 20)),
             Expanded(
-                child: TransactionCard(
-              fromCurrency: 'USD',
-              toCurrency: 'KES',
-              inputAmount: 100,
-              convertedAmount: 12000,
-              exchangeRate: 120.0,
-              changePercentage: 2.5,
-            )),
+                child:
+            ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return TransactionCard(
+                  fromCurrency: 'USD',
+                  toCurrency: 'KES',
+                  inputAmount: 100,
+                  convertedAmount: 12000,
+                  exchangeRate: 120.0,
+                  changePercentage: 2.5,
+                );
+              },
+            ),),
 
             Text('Currencies', style: TextStyle(fontSize: 20)),
-            // Expanded(child: CurrencyWidget()),
-            // Expanded(
-            //     child: RateChart(
-            //   rates: {
-            //     '2023-01-01': 120.0,
-            //     '2023-01-02': 121.5,
-            //     '2023-01-03': 119.0,
-            //     '2023-01-04': 122.0,
-            //     '2023-01-05': 123.5,
-            //   },
-            // )),
+            Expanded(child: CurrencyWidget()),
+
             SizedBox(height: 20),
           ],
         ),

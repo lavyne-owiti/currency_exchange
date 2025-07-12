@@ -1,8 +1,8 @@
 import 'package:currency_exchange_app/feature/currency_trade/presentation/providers/auth_controller.dart';
 import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/auth/register.dart';
+import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -28,6 +28,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     try {
       await auth.signIn(
           emailController.text.trim(), passwordController.text.trim());
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const DashboardScreen()),
+        );
+      }
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Login Successful")));
     } catch (e) {
@@ -50,7 +56,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             children: [
               TextFormField(
                 controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  // labelStyle: const TextStyle(color: Colors.blue),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
                 validator: (val) => val != null && val.contains('@')
                     ? null
                     : 'Enter a valid email',
@@ -58,7 +78,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 12),
               TextFormField(
                 controller: passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
                 obscureText: true,
                 validator: (val) => val != null && val.length >= 6
                     ? null
@@ -68,6 +101,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
                       onPressed: _login,
                       child: const Text("Login"),
                     ),
