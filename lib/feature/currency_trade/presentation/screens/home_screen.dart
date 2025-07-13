@@ -17,28 +17,58 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<String> currencies = [];
   CurrencyService currencyService = CurrencyService();
+  final CurrencyService service = CurrencyService();
 
-  // Future<void> _fetchCurrencies() async {
-  //   try {
-  //     List<String> result = await currencyService.fetchCurrencies();
-  //     setState(() {
-  //       currencies = result;
-  //     });
-  //   } catch (error) {
-  //     print('Error fetching currencies: $error');
-  //   }
-  // }
+  String from = 'USD';
+  String to = 'KES';
+  double amount = 100;
+
+  double? convertedAmount;
+  double? exchangeRate;
+  Map<String, double>? chartRates;
+
+  bool isLoading = true;
 
   @override
   void initState() {
-    // _fetchCurrencies();
-    print('this currencies $currencies');
-    //  currencyService.fetchCurrencies.then((value) {
-    //     setState(() {
-    //       currencies = value;
-    //     });
-    //   });
     super.initState();
+    fetchAllData();
+  }
+
+  Future<void> fetchAllData() async {
+    setState(() => isLoading = true);
+
+    try {
+      final conv = await service.convertCurrency(
+        from: from,
+        to: to,
+        amount: amount,
+      );
+
+      final rate = await service.fetchRate(from, to);
+
+      final now = DateTime.now();
+      final startDate =
+          now.subtract(const Duration(days: 6)).toIso8601String().split('T')[0];
+      final endDate = now.toIso8601String().split('T')[0];
+
+      final timeseries = await service.fetchTimeSeries(
+        from: from,
+        to: to,
+        startDate: startDate,
+        endDate: endDate,
+      );
+
+      setState(() {
+        convertedAmount = conv;
+        exchangeRate = rate;
+        chartRates = timeseries;
+      });
+    } catch (e) {
+      debugPrint('Error: $e');
+    } finally {
+      setState(() => isLoading = false);
+    }
   }
 
   @override
@@ -143,13 +173,21 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return TransactionCard(
-                    fromCurrency: 'USD',
-                    toCurrency: 'KES',
-                    inputAmount: 100,
-                    convertedAmount: 12000,
-                    exchangeRate: 120.0,
-                    changePercentage: 2.5,
+                  return
+                      // TransactionCard(
+                      //   fromCurrency: 'USD',
+                      //   toCurrency: 'KES',
+                      //   inputAmount: 100,
+                      //   convertedAmount: 12000,
+                      //   exchangeRate: 120.0,
+                      //   changePercentage: 2.5,
+                      // );
+                      TransactionCard(
+                    fromCurrency: from,
+                    toCurrency: to,
+                    inputAmount: amount,
+                    convertedAmount: convertedAmount ?? 0,
+                    exchangeRate: exchangeRate ?? 0,
                   );
                 },
               ),

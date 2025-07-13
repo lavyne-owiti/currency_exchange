@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 
 class CurrencyService {
@@ -20,27 +19,8 @@ class CurrencyService {
       } else {
         throw Exception('Unexpected response format: "quotes" is missing');
       }
-      // log('this is the data $data');
-      // final rates = data['quotes'] as Map<String, dynamic>;
-      // return rates.keys.toList();
     } else {
       throw Exception('Failed to load currencies : ${response.statusCode}');
-    }
-  }
-
-  Future<Map<String, String>> fetchCurrencySymbols() async {
-    final response = await dio.get(
-      '$_baseUrl/symbols',
-      queryParameters: {
-        'access_key': _accessKey,
-      },
-    );
-    if (response.statusCode == 200) {
-      final data = response.data;
-      final symbols = data['symbols'] as Map<String, dynamic>;
-      return symbols.map((key, value) => MapEntry(key, value['description']));
-    } else {
-      throw Exception('Failed to load currencies');
     }
   }
 
@@ -75,10 +55,42 @@ class CurrencyService {
         'amount': amount,
       },
     );
+    // "amount":1
     if (response.statusCode == 200) {
       return (response.data['result'] as num).toDouble();
     } else {
       throw Exception('Currency conversion failed');
+    }
+  }
+
+  Future<double> fetchRate(String from, String to) async {
+    final result = await convertCurrency(from: from, to: to, amount: 1);
+    return result;
+  }
+
+  Future<Map<String, double>> fetchTimeSeries({
+    required String from,
+    required String to,
+    required String startDate,
+    required String endDate,
+  }) async {
+    final response = await dio.get(
+      '$_baseUrl/timeseries',
+      queryParameters: {
+        'access_key': _accessKey,
+        'base': from,
+        'symbols': to,
+        'start_date': startDate,
+        'end_date': endDate,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final rawRates = response.data['rates'] as Map<String, dynamic>;
+      return rawRates
+          .map((date, map) => MapEntry(date, (map[to] as num).toDouble()));
+    } else {
+      throw Exception('Failed to fetch timeseries rates');
     }
   }
 
@@ -98,27 +110,9 @@ class CurrencyService {
     }
   }
 
-  Future<double> getExchangeRate(String from, String to) async {
-    final response = await dio.get(
-      'https://api.exchangerate.host/convert',
-      queryParameters: {
-        'access_key': _accessKey,
-        'from': from,
-        'to': to,
-        'amount': 1,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      return (response.data['result'] as num).toDouble();
-    } else {
-      throw Exception('Failed to get rate');
-    }
-  }
-
   Future<Map<String, dynamic>> fetchChangeData(String from, String to) async {
     final response = await dio.get(
-      'https://api.exchangerate.host/change',
+      '$_baseUrl/change',
       queryParameters: {
         'access_key': _accessKey,
         'start_date': '2024-01-01',
@@ -134,26 +128,20 @@ class CurrencyService {
       throw Exception('Failed to fetch change data');
     }
   }
-
-  Future<double> convertAmount({
-    required String from,
-    required String to,
-    required double amount,
-  }) async {
-    final response = await dio.get(
-      'https://api.exchangerate.host/convert',
-      queryParameters: {
-        'access_key': _accessKey,
-        'from': from,
-        'to': to,
-        'amount': amount,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      return (response.data['result'] as num).toDouble();
-    } else {
-      throw Exception('Conversion failed');
-    }
-  }
 }
+
+// Future<Map<String, String>> fetchCurrencySymbols() async {
+//   final response = await dio.get(
+//     '$_baseUrl/symbols',
+//     queryParameters: {
+//       'access_key': _accessKey,
+//     },
+//   );
+//   if (response.statusCode == 200) {
+//     final data = response.data;
+//     final symbols = data['symbols'] as Map<String, dynamic>;
+//     return symbols.map((key, value) => MapEntry(key, value['description']));
+//   } else {
+//     throw Exception('Failed to load currencies');
+//   }
+// }

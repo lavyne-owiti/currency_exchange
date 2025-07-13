@@ -24,9 +24,9 @@ class TransactionCard extends StatelessWidget {
     final changeColor = isPositive ? Colors.green : Colors.red;
 
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 4,
-      margin: const EdgeInsets.all(16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 1,
+      margin: const EdgeInsets.all(10),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
