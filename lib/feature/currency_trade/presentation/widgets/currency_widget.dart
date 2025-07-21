@@ -16,7 +16,7 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
 
   Future<void> _fetchCurrencies() async {
     try {
-      List<String> result = await currencyService.fetchCurrencies();
+      List<String> result = await currencyService.fetchCurrency();
       setState(() {
         currencies = result;
         log('Fetched currencies: $currencies');
@@ -49,32 +49,41 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
             itemCount: currencies.length > 10 ? 10 : currencies.length,
             itemBuilder: (BuildContext context, int index) {
               final currency = currencies[index];
-              final parts = currency.split(':');
-              final currencyCode = parts[0].trim();
-              final rate = parts.length > 1 ? parts[1].trim() : '';
+              // final parts = currency.split(':');
+              // final currencyCode = parts[0].trim();
+              // final rate = parts.length > 1 ? parts[1].trim() : '';
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        currencyCode,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        rate,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    currency,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
                   ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text(
+                  //       currency,
+                  //       style: const TextStyle(
+                  //         fontSize: 16,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Colors.black,
+                  //       ),
+                  //     ),
+                  //     Text(
+                  //       rate,
+                  //       style: const TextStyle(
+                  //         fontSize: 12,
+                  //         fontWeight: FontWeight.w400,
+                  //         color: Colors.green,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   if (index != currencies.length - 1) // no divider after last
                     const Divider(
                       thickness: 1,

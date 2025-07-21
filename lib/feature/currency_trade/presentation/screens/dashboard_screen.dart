@@ -1,6 +1,6 @@
 import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/swap_screen.dart';
 import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/home_screen.dart';
-import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/transaction_screen.dart';
+import 'package:currency_exchange_app/feature/currency_trade/presentation/screens/transfer_screen.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -19,10 +19,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  List<Widget> _screens = [
+  final List<Widget> _screens = [
     const HomeScreen(),
     const CurrencySwapScreen(),
-    const TransaferScreen(),
+    const TransferScreen(),
   ];
 
   final List<String> _titles = [

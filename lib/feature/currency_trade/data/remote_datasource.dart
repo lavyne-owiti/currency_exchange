@@ -6,7 +6,7 @@ class CurrencyService {
   final String _baseUrl = 'https://api.exchangerate.host';
   final String _accessKey = '96bb8f45e9f348614ea12698dd91d1ac';
 
-  Future<List<String>> fetchCurrencies() async {
+  Future<List<String>> fetchLiveRatesfromUsd() async {
     final response = await dio
         .get('$_baseUrl/live', queryParameters: {"access_key": _accessKey});
     if (response.statusCode == 200) {
@@ -18,6 +18,22 @@ class CurrencyService {
         }).toList();
       } else {
         throw Exception('Unexpected response format: "quotes" is missing');
+      }
+    } else {
+      throw Exception('Failed to load currencies : ${response.statusCode}');
+    }
+  }
+
+  Future<List<String>> fetchCurrency() async {
+    final response = await dio
+        .get('$_baseUrl/list', queryParameters: {"access_key": _accessKey});
+    if (response.statusCode == 200) {
+      final data = response.data;
+      final currencies = data['currencies'];
+      if (currencies != null && currencies is Map<String, dynamic>) {
+        return currencies.keys.toList();
+      } else {
+        throw Exception('Unexpected response format: "currencies" is missing');
       }
     } else {
       throw Exception('Failed to load currencies : ${response.statusCode}');

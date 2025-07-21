@@ -1,14 +1,14 @@
 import 'package:currency_exchange_app/feature/currency_trade/presentation/widgets/rate_chart.dart';
 import 'package:flutter/material.dart';
 
-class TransaferScreen extends StatefulWidget {
-  const TransaferScreen({super.key});
+class TransferScreen extends StatefulWidget {
+  const TransferScreen({super.key});
 
   @override
-  State<TransaferScreen> createState() => _TransaferScreenState();
+  State<TransferScreen> createState() => _TransferScreenState();
 }
 
-class _TransaferScreenState extends State<TransaferScreen> {
+class _TransferScreenState extends State<TransferScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +34,7 @@ class _TransaferScreenState extends State<TransaferScreen> {
                 // )
               ),
               SizedBox(height: 20),
-              Text('Enter Amount to Transfer', style: TextStyle(fontSize: 15)),
+              Text('Enter Amount to Buy', style: TextStyle(fontSize: 15)),
               SizedBox(height: 10),
               TextField(
                 decoration: InputDecoration(
