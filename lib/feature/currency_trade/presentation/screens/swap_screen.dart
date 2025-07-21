@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:currency_exchange_app/feature/currency_trade/data/remote_datasource.dart';
 import 'package:currency_exchange_app/feature/currency_trade/presentation/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,30 @@ class _CurrencySwapScreenState extends State<CurrencySwapScreen> {
   double? exchangeRate;
   Map<String, double>? chartRates;
   bool isLoading = true;
+
+  Future<void> _fetchCurrencies() async {
+    try {
+      List<String> result = await currencyService.fetchCurrency();
+      setState(() {
+        currencyService.currencies = result;
+        log('Fetched currencies: ${currencyService.currencies}');
+      });
+    } catch (error) {
+      print('Error fetching currencies: $error');
+    }
+  }
+
+  Future<void> fetchRate() async {
+    try {
+      List<String> result = await currencyService.fetchLiveRatesfromUsd();
+      setState(() {
+        currencyService.liveRates = result;
+        log('Exchange rate from ${currencyService.liveRates}');
+      });
+    } catch (error) {
+      print('Error fetching exchange rate: $error');
+    }
+  }
 
   Future<void> fetchAllData() async {
     setState(() => isLoading = true);
@@ -59,7 +85,9 @@ class _CurrencySwapScreenState extends State<CurrencySwapScreen> {
   @override
   void initState() {
     super.initState();
+    _fetchCurrencies();
     fetchAllData();
+    fetchRate();
   }
 
   @override
@@ -71,8 +99,8 @@ class _CurrencySwapScreenState extends State<CurrencySwapScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 10),
-            Text('From',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+            Text('From USD TO Any Currency',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Enter Amount',
@@ -88,9 +116,15 @@ class _CurrencySwapScreenState extends State<CurrencySwapScreen> {
             SizedBox(height: 10),
             Text('To',
                 style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-            TextField(
+            // IconButton(
+            //     onPressed: () {
+            //       print('${currencyService.liveRates}');
+            //     },
+            //     icon: Icon(Icons.swap_horiz)),
+            DropdownButtonFormField<String>(
+              value: to,
               decoration: InputDecoration(
-                labelText: 'Enter Amount',
+                labelText: 'Select Currency',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                   borderSide: BorderSide(
@@ -99,6 +133,19 @@ class _CurrencySwapScreenState extends State<CurrencySwapScreen> {
                   ),
                 ),
               ),
+              items: currencyService.currencies
+                  .map((currency) => DropdownMenuItem(
+                        value: currency,
+                        child: Text(currency),
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    to = value;
+                  });
+                }
+              },
             ),
             SizedBox(height: 20),
             Text('Exchange Rate', style: TextStyle(fontSize: 20)),

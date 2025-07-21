@@ -5,6 +5,8 @@ class CurrencyService {
   final Dio dio = Dio();
   final String _baseUrl = 'https://api.exchangerate.host';
   final String _accessKey = '96bb8f45e9f348614ea12698dd91d1ac';
+  List<String> currencies = [];
+  List<String> liveRates = [];
 
   Future<List<String>> fetchLiveRatesfromUsd() async {
     final response = await dio
@@ -37,23 +39,6 @@ class CurrencyService {
       }
     } else {
       throw Exception('Failed to load currencies : ${response.statusCode}');
-    }
-  }
-
-  Future<Map<String, double>> fetchLiveRates(String baseCurrency) async {
-    final response = await dio.get(
-      '$_baseUrl/live',
-      queryParameters: {
-        'access_key': _accessKey,
-        'base': baseCurrency,
-      },
-    );
-    if (response.statusCode == 200) {
-      final rates = response.data['rates'] as Map<String, dynamic>;
-      return rates
-          .map((key, value) => MapEntry(key, (value as num).toDouble()));
-    } else {
-      throw Exception('Failed to fetch live rates');
     }
   }
 

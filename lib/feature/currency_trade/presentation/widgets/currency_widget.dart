@@ -11,15 +11,14 @@ class CurrencyWidget extends StatefulWidget {
 }
 
 class _CurrencyWidgetState extends State<CurrencyWidget> {
-  List<String> currencies = [];
   CurrencyService currencyService = CurrencyService();
 
   Future<void> _fetchCurrencies() async {
     try {
       List<String> result = await currencyService.fetchCurrency();
       setState(() {
-        currencies = result;
-        log('Fetched currencies: $currencies');
+        currencyService.currencies = result;
+        log('Fetched currencies: ${currencyService.currencies}');
       });
     } catch (error) {
       print('Error fetching currencies: $error');
@@ -46,9 +45,11 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
           // ),
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: currencies.length > 10 ? 10 : currencies.length,
+            itemCount: currencyService.currencies.length > 10
+                ? 10
+                : currencyService.currencies.length,
             itemBuilder: (BuildContext context, int index) {
-              final currency = currencies[index];
+              final currency = currencyService.currencies[index];
               // final parts = currency.split(':');
               // final currencyCode = parts[0].trim();
               // final rate = parts.length > 1 ? parts[1].trim() : '';
@@ -84,7 +85,9 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
                   //     ),
                   //   ],
                   // ),
-                  if (index != currencies.length - 1) // no divider after last
+                  if (index !=
+                      currencyService.currencies.length -
+                          1) // no divider after last
                     const Divider(
                       thickness: 1,
                       height: 16,
