@@ -128,8 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 20),
-          
-
+        
             Text('Currencies', style: TextStyle(fontSize: 20)),
             Expanded(child: CurrencyWidget()),
           ],

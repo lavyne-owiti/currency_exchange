@@ -12,6 +12,7 @@ class CurrencyWidget extends StatefulWidget {
 
 class _CurrencyWidgetState extends State<CurrencyWidget> {
   CurrencyService currencyService = CurrencyService();
+  
 
   Future<void> _fetchCurrencies() async {
     try {
@@ -29,6 +30,7 @@ class _CurrencyWidgetState extends State<CurrencyWidget> {
   void initState() {
     super.initState();
     _fetchCurrencies();
+  
   }
 
   @override
